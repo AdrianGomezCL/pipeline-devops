@@ -1,4 +1,6 @@
 def call(){
+
+    figlet 'Maven'
     
     if(util.validateStage('compile'))
     {

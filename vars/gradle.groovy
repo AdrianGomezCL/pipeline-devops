@@ -1,5 +1,7 @@
 def call(){
 
+    figlet 'Gradle'
+
     if(util.validateStage('build') || util.validateStage('test'))
     {
         stage('build & test') {

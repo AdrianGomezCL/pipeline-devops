@@ -6,7 +6,7 @@ def call(){
         parameters {
             choice(
                 name:'compileTool',
-                choices: ['Maven', 'Gradle'],
+                choices: ['Gradle', 'Maven'],
                 description: 'Seleccione herramienta de compilacion'
             )
             string(
@@ -23,11 +23,11 @@ def call(){
                         
                         switch(params.compileTool)
                         {
-                            case 'Maven':
-                                maven.call()
-                            break;
                             case 'Gradle':
                                 gradle.call()
+                            break;
+                            case 'Maven':
+                                maven.call()
                             break;
                         }
                     }
