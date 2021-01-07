@@ -7,15 +7,14 @@ def call(){
             stage('pipeline') {
                 steps {
                     script {
-
-                        switch(env.GIT_BRANCH)
+                        
+                        if(env.GIT_BRANCH=='develop' || env.GIT_BRANCH.contains('feature'))
                         {
-                            case "develop": case "feature":
-                                gradleCI.call();
-                            break;
-                            case "release":
-                                gradleCD.call();
-                            break;
+                            gradleCI.call();
+                        } else if(env.GIT_BRANCH.contains('release')) {
+                            gradleCD.call();
+                        } else {
+                            // Do Nothing.
                         }
                     }
                 }
