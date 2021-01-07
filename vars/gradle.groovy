@@ -1,6 +1,6 @@
 def call(){
 
-    figlet 'Gradle'
+    figlet params.compileTool
 
     if(util.validateStage('build') || util.validateStage('test'))
     {
