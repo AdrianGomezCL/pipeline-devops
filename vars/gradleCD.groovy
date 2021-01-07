@@ -8,7 +8,8 @@ def call() {
     }
 
     stage('runDownloadedJar') {
-        bat 'java -jar DevOpsUsach2020-0.0.1.jar'
+        //bat 'java -jar DevOpsUsach2020-0.0.1.jar'
+        bat 'start /B gradle bootRun'
         sleep 20
     }
 
