@@ -2,16 +2,18 @@ import org.cl.*
 
 def call(){
 
+    def util = new Util();
+
     figlet 'Gradle'
 
-    if(validateStage('build') || validateStage('test'))
+    if(util.validateStage('build') || util.validateStage('test'))
     {
         stage('build & test') {
             bat "gradle clean build"
         }
     }
 
-    if(validateStage('sonar'))
+    if(util.validateStage('sonar'))
     {
         stage('sonar') {
             // Nombre extraido desde Jenkins > Global tool configuration > SonarQube Scanner
@@ -24,7 +26,7 @@ def call(){
         }
     }
 
-    if(validateStage('run'))
+    if(util.validateStage('run'))
     {
         stage('run') {
             bat 'start /B gradle bootRun'
@@ -32,14 +34,14 @@ def call(){
         }
     }
 
-    if(validateStage('rest'))
+    if(util.validateStage('rest'))
     {
         stage('rest') {
             bat 'curl -X GET "http://localhost:8082/rest/mscovid/test?msg=testing"'
         }
     }
 
-    if(validateStage('nexus'))
+    if(util.validateStage('nexus'))
     {
         stage('nexus') {
             nexusPublisher nexusInstanceId: 'NexusLocal',
