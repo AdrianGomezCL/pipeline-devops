@@ -4,18 +4,17 @@ def call(){
 
     def util = new Util()
 
-    if (isUnix()) {
-        figlet 'Unix'
-    } else {
-        figlet 'Windows'
-    }
-
     figlet 'Gradle'
 
     if(util.validateStage('build') || util.validateStage('test'))
     {
         stage('build & test') {
-            bat "gradle clean build"
+
+            if (isUnix()) {
+                sh "gradle clean build"
+            } else {
+                bat "gradle clean build"
+            }
         }
     }
 
@@ -27,7 +26,12 @@ def call(){
 
             // Nombre extraido desde Jenkins > Configurar el sistema > SonarQube servers
             withSonarQubeEnv('sonar-server') {
-                bat "${scannerHome}\\bin\\sonar-scanner -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build"
+
+                if (isUnix()) {
+                    sh "${scannerHome}\\bin\\sonar-scanner -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build"
+                } else {
+                    bat "${scannerHome}\\bin\\sonar-scanner -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build"
+                }
             }
         }
     }
@@ -35,7 +39,13 @@ def call(){
     if(util.validateStage('run'))
     {
         stage('run') {
-            bat 'start /B gradle bootRun'
+
+            if (isUnix()) {
+                sh "nohup bash gradlew bootRun &"
+            } else {
+                bat 'start /B gradle bootRun'
+            }
+
             sleep 20
         }
     }
@@ -43,7 +53,12 @@ def call(){
     if(util.validateStage('rest'))
     {
         stage('rest') {
-            bat 'curl -X GET "http://localhost:8082/rest/mscovid/test?msg=testing"'
+
+            if (isUnix()) {
+                sh 'curl -X GET "http://localhost:8082/rest/mscovid/test?msg=testing"'
+            } else {
+                bat 'curl -X GET "http://localhost:8082/rest/mscovid/test?msg=testing"'
+            }
         }
     }
 
