@@ -1,3 +1,5 @@
+import org.cl.*
+
 def call(){
 
     figlet 'Gradle'
