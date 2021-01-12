@@ -4,28 +4,28 @@ def call(){
 
     figlet 'Maven'
     
-    if(util.validateStage('compile'))
+    if(validateStage('compile'))
     {
         stage('compile') {
             bat './mvnw.cmd clean compile -e'
         }
     }
 
-    if(util.validateStage('test'))
+    if(validateStage('test'))
     {
         stage('test'){
             bat './mvnw.cmd clean test -e'
         }
     }
 
-    if(util.validateStage('jar'))
+    if(validateStage('jar'))
     {
         stage('jar'){
             bat './mvnw.cmd clean package -e'
         }
     }
 
-    if(util.validateStage('sonar'))
+    if(validateStage('sonar'))
     {
         stage('sonar') {
             // Nombre extraido desde Jenkins > Global tool configuration > SonarQube Scanner
@@ -38,7 +38,7 @@ def call(){
         }
     }
 
-    if(util.validateStage('nexus'))
+    if(validateStage('nexus'))
     {
         stage('nexus') {
             nexusPublisher nexusInstanceId: 'NexusLocal',
