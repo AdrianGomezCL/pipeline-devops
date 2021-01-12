@@ -2,7 +2,7 @@ import org.cl.*
 
 def call(){
 
-    def util = new Util();
+    def util = new Util()
 
     figlet 'Gradle'
 
