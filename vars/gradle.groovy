@@ -4,8 +4,9 @@ def call(){
 
     def util = new Util()
 
-    isUnix() ? figlet 'Linux' : figlet 'Windows'
+    def so = isUnix() ? 'Linux' : 'Windows'
 
+    figlet so
     figlet 'Gradle'
 
     if(util.validateStage('build') || util.validateStage('test'))
