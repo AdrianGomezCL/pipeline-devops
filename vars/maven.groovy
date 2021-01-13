@@ -1,27 +1,49 @@
 import org.cl.*
 
 def call(){
+    
+    def util = new Util()
 
+    def so = isUnix() ? 'Linux' : 'Windows'
+
+    figlet so
     figlet 'Maven'
     
     if(validateStage('compile'))
     {
         stage('compile') {
-            bat './mvnw.cmd clean compile -e'
+
+            if (isUnix()) {
+                sh './mvnw.cmd clean compile -e'
+            } else {
+                bat './mvnw.cmd clean compile -e'
+            }
         }
     }
 
     if(validateStage('test'))
     {
         stage('test'){
-            bat './mvnw.cmd clean test -e'
+
+            if (isUnix()) {
+                sh './mvnw.cmd clean test -e'
+            } else {
+                bat './mvnw.cmd clean test -e'
+            }
+
+            
         }
     }
 
     if(validateStage('jar'))
     {
         stage('jar'){
-            bat './mvnw.cmd clean package -e'
+
+            if (isUnix()) {
+                sh './mvnw.cmd clean package -e'
+            } else {
+                bat './mvnw.cmd clean package -e'
+            }
         }
     }
 
@@ -33,7 +55,12 @@ def call(){
 
             // Nombre extraido desde Jenkins > Configurar el sistema > SonarQube servers
             withSonarQubeEnv('sonar-server') {
-                bat "${scannerHome}\\bin\\sonar-scanner -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build"
+
+                if (isUnix()) {
+                    sh "${scannerHome}\\bin\\sonar-scanner -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build"
+                } else {
+                    bat "${scannerHome}\\bin\\sonar-scanner -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build"
+                }
             }
         }
     }
